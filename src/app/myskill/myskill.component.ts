@@ -23,6 +23,7 @@ data = {
   province :  '' ,
   price :  '' 
  } 
+ loaded:boolean=false
 
 myUid:any
 
@@ -35,7 +36,7 @@ myUid:any
             let y = action.payload.toJSON()
             y["$key"] = action.key
             this.itemArray.push(y as ListItemClass)
-  
+            this.loaded=true 
 })
     })
 
@@ -83,7 +84,8 @@ this.myUid =  localStorage.getItem('uid')
       comments : this.data.comments ,
       skill :  this.data.skill ,
       province :  this.data.province ,
-      price :  this.data.price  
+      price :  this.data.price  ,
+      uid:this.myUid
     })
   
     this.itemArray = []

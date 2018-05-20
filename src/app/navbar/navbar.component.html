@@ -8,10 +8,10 @@
           <li class="uk-active"><a routerLink="/"> حرفة</a></li>
 
           <li *ngIf="!isLoggedIn"><a routerLink="/register">التسجيل</a></li>
-          <li *ngIf="!isLoggedIn"><a routerLink="/login">الدخول</a></li>
+          <li *ngIf="!isLoggedIn"><a  href="#modal-login" uk-toggle>الدخول</a></li>
           
           <li><a routerLink="/allskills">المهارات</a></li>
-          <li><a routerLink="/myskill">مهاراتي</a></li>
+          <li *ngIf="isLoggedIn"><a routerLink="/myskill">مهاراتي</a></li>
          
          
       </ul>
@@ -45,3 +45,33 @@
 
 
 </nav>
+
+
+
+
+<div id="modal-login" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <fieldset class="uk-fieldset">
+ 
+
+            <div class="uk-margin">
+                <input class="uk-input" type="text" placeholder="البريد الالكتروني" name="email" [(ngModel)]="email">
+            </div>
+            <div class="uk-margin">
+                <input class="uk-input" type="text" placeholder="كلمة السر" name="password" [(ngModel)]="password">
+            </div>
+      
+       
+       
+      
+        </fieldset>
+        
+        <p class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">الغاء </button>
+            <button class="uk-button uk-button-default uk-modal-close" type="button" (click)="myLogin()">دخول </button>
+            
+               
+      
+        </p>
+    </div>
+</div>

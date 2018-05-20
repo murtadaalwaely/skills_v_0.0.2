@@ -25,6 +25,7 @@ data = {
   province :  '' ,
   price :  '' 
  } 
+ loaded:boolean=false
 
 
 
@@ -38,9 +39,9 @@ data = {
             let y = action.payload.toJSON()
             y["$key"] = action.key
             this.itemArray.push(y as ListItemClass)
-  
+            this.loaded=true 
 })
-    })
+ })
 
 
     console.log(this.itemArray)

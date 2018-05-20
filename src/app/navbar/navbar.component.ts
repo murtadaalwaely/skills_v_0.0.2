@@ -16,9 +16,10 @@ export class NavbarComponent implements OnInit {
 
   user: Observable<firebase.User>;
   private isLoggedIn: Boolean= false;
-  private email: String;
+  //private email: String;
 
-
+  email:string = '';
+  password:string = '';
   constructor(public afAuth: AngularFireAuth, public router:Router) { 
    
 
@@ -60,8 +61,35 @@ export class NavbarComponent implements OnInit {
     localStorage.setItem('email', '' )
     localStorage.setItem('uid','' )
 
-    this.router.navigate(['/login'])
+    this.router.navigate(['/home'])
   }
 
+  myLogin(){
+    this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password)
+    .then(user =>{
+   //   console.log(this.email, this.password)
+   this.isLoggedIn = true
+      localStorage.setItem('isLoggedIn','true')
+      localStorage.setItem('email',this.afAuth.auth.currentUser.email )
+
+      this.afAuth.authState.subscribe(auth=>{
+        if(auth){
+  localStorage.setItem('uid',auth.uid )
+ 
+  
+  this.router.navigate(['/home'])
+
+        }
+      })
+
+
+     
+    }).catch(error=>{
+      
+    
+      console.error(error)
+    })
+
+  }
 
 }

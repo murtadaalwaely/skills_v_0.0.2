@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database'
 import { AngularFireStorage ,AngularFireStorageReference ,AngularFireUploadTask} from 'angularfire2/storage';
 import { Observable } from 'rxjs/Observable';
-
+import {Router} from '@angular/router';
 @Component({
   selector: 'app-userprofile',
   templateUrl: './userprofile.component.html',
@@ -26,7 +26,8 @@ itemArray = []
     email:'',
     image: ''
    } 
- 
+ spinner:boolean=true
+redirect:boolean=false
    userKey:any
 
    ref: AngularFireStorageReference;
@@ -35,10 +36,10 @@ itemArray = []
   downloadURL :Observable<string>;
   imageURL:string
 
-  constructor(private afStorage: AngularFireStorage ,public db:AngularFireDatabase ) { 
+  constructor(private afStorage: AngularFireStorage ,public db:AngularFireDatabase,public router:Router ) { 
     this.email = localStorage.getItem('email')
     this.myid = localStorage.getItem('uid')
-
+if(this.redirect==false){''}
 
     this.itemList = db.list('users')
 
@@ -63,31 +64,17 @@ itemArray = []
              this.data.email = this.itemArray[0]['email'] 
              this.data.image = this.itemArray[0]['image'] 
             
-     
+             this.spinner=false
            
           
-             console.log(this.data)
+           //  console.log(this.data)
          
               
                      }
-
-  
 })
     })
  
-  
-
-
-
-
-
-
-
-
-
-
-
-
+ 
   }
 
   ngOnInit() {
@@ -97,25 +84,19 @@ itemArray = []
   }
 
 
-
-
   upload(event) {
-    const id = Math.random().toString(36).substring(2);
-    this.ref = this.afStorage.ref(id);
-    this.task = this.ref.put(event.target.files[0]);
-    this.downloadURL =  this.task.downloadURL()
-    this.downloadURL.subscribe(url => {
-
-      if (url) {
-       this.imageURL =  url
+    const id= Math.random().toString(36).substring(2)
+    this.afStorage.upload(id,event.target.files[0]).then(()=>{
+      this.ref=this.afStorage.ref(id)
+    this.ref.getDownloadURL().subscribe(url=>{
+      console.log(url)
       
-      }
-      console.log(this.imageURL)
-
+    if (url) {
+      this.imageURL =  url
       this.itemList.set(this.userKey , {
         name : this.data.name  ,
-        phone :  this.data.phone ,
         age : this.data.age ,
+        phone :  this.data.phone ,
         address :  this.data.address ,
         city :  this.data.city ,
         job :  this.data.job , 
@@ -124,14 +105,10 @@ itemArray = []
         image: this.imageURL
       })
 
-    })
+      }  
+    })})
     
   }
-
-  
-  
-
-
   onEdit( ){
  
 
@@ -143,22 +120,13 @@ itemArray = []
       city :  this.data.city ,
       job :  this.data.job , 
       email:this.email,
-      uid:this.myid
+      uid:this.myid,
+      image:this.data.image
     })
   
- 
-    
-
 
   }
  
-
-
-
-
-
-
-
 
 
 }

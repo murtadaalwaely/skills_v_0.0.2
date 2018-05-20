@@ -1,6 +1,6 @@
 <div class=" uk-padding"  >
   
-
+    
         <table class="uk-table uk-table-striped">
             <thead>
                 <tr>
@@ -14,6 +14,7 @@
                 </tr>
             </thead>
             <tbody>
+                    <span *ngIf="!loaded"  class="uk-align-center" uk-spinner="ratio: 4.5"></span>
                 <tr *ngFor="let item of itemArray">
                     
                     <td>{{item.$key}}</td>
@@ -29,9 +30,10 @@
      
             </tbody>
         </table>
-        
+    
+
     </div>
-     
+
     
     
     

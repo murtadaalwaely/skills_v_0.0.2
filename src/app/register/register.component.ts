@@ -34,7 +34,17 @@ export class RegisterComponent implements OnInit {
           localStorage.setItem('uid',auth.uid )
   this.itemList.push({
     email: this.email ,
-    uid : auth.uid
+    uid : auth.uid,
+   
+    name : 'user'  ,
+    phone :  '000000000' ,
+    age : '' ,
+    address :  '' ,
+    city :  '' ,
+    job : '', 
+  
+    image:'assets/img/person.png'
+
   })
   
         }
